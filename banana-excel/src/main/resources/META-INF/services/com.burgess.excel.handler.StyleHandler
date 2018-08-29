@@ -1,0 +1,9 @@
+com.burgess.excel.handler.style.Alignment
+com.burgess.excel.handler.style.Border
+com.burgess.excel.handler.style.ColumnWidth
+com.burgess.excel.handler.style.FontBoldweight
+com.burgess.excel.handler.style.FontHeightInPoints
+com.burgess.excel.handler.style.FontName
+com.burgess.excel.handler.style.ForeGroundColor
+com.burgess.excel.handler.style.Format
+com.burgess.excel.handler.style.WrapText
