@@ -40,3 +40,7 @@
 /banana-log/*.project
 /banana-excel/*.iml
 /banana/*.iml
+/banana-email/*.iml
+/banana-job/*.iml
+/banana-kafka/*.iml
+/banana-log/*.iml
