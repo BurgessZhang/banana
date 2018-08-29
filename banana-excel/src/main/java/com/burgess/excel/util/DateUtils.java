@@ -7,12 +7,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.math.Fraction;
-
-import com.sun.org.apache.regexp.internal.recompile;
-
-import sun.util.logging.resources.logging;
-
 /**
  * @project banana-excel
  * @package com.burgess.excel.util
