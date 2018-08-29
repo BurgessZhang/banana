@@ -38,3 +38,4 @@
 /banana-kafka/*.project
 /banana-log/*.classpath
 /banana-log/*.project
+/banana-excel/*.iml
