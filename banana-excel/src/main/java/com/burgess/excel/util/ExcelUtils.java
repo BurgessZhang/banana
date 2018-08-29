@@ -1,34 +1,31 @@
 package com.burgess.excel.util;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.office.common.BeanUtil;
-import org.office.common.DataUtil;
-import org.office.excel.api.ExcelExportService;
-import org.office.excel.api.ExcelParseService;
-import org.office.excel.api.export.ExcelExportServiceImpl;
-import org.office.excel.api.parse.ExcelParseServiceImpl;
-import org.office.excel.bean.Student;
-import org.office.excel.config.ExcelField;
-import org.office.excel.config.ExcelSheet;
-import org.office.excel.config.util.AnnotationUtil;
-import org.office.excel.exception.ExcelCellException;
-import org.office.excel.exception.ExcelDataHandlerException;
-import org.office.excel.exception.ExcelDataTypeHandlerException;
-import org.office.excel.exception.ExcelIoException;
-import org.office.excel.exception.ExcelIoInputException;
-import org.office.excel.exception.ExcelNotFoundHandlerException;
-import org.office.excel.exception.ExcelStyleException;
-import org.office.excel.exception.ExcelStyleHandlerException;
-import org.office.excel.exception.ExcelValidateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
+import com.burgess.excel.api.ExcelExportService;
+import com.burgess.excel.api.ExcelParseService;
+import com.burgess.excel.api.export.ExcelExportServiceImpl;
+import com.burgess.excel.api.parse.ExcelParseServiceImpl;
+import com.burgess.excel.config.ExcelField;
+import com.burgess.excel.config.ExcelSheet;
+import com.burgess.excel.config.util.AnnotationUtils;
+import com.burgess.excel.exception.ExcelCellException;
+import com.burgess.excel.exception.ExcelDataHandlerException;
+import com.burgess.excel.exception.ExcelDataTypeHandlerException;
+import com.burgess.excel.exception.ExcelIoException;
+import com.burgess.excel.exception.ExcelIoInputException;
+import com.burgess.excel.exception.ExcelNotFoundHandlerException;
+import com.burgess.excel.exception.ExcelStyleException;
+import com.burgess.excel.exception.ExcelStyleHandlerException;
+import com.burgess.excel.exception.ExcelValidateException;
 
 /**
  * @project banana-excel
@@ -62,13 +59,13 @@ public class ExcelUtils {
 			throw new IllegalArgumentException(msg);
 		}
 		T t=list.get(0);
-		List<ExcelField> configlist=AnnotationUtil.loadAnnotationConfig(t.getClass());
+		List<ExcelField> configlist=AnnotationUtils.loadAnnotationConfig(t.getClass());
 		Map<String,Object>[]datas=new Map[list.size()];
 		
 		for(int i=0;i<list.size();i++){
 			T bean =list.get(i);
-			Map<Object, Object> map1 = DataUtil.convertToMap(bean);
-			Map<String, Object> map2 = DataUtil.convertMapToMap(map1);
+			Map<Object, Object> map1 = DataUtils.convertToMap(bean);
+			Map<String, Object> map2 = DataUtils.convertMapToMap(map1);
 			datas[i] = map2;
 		}
 		
@@ -95,15 +92,15 @@ public class ExcelUtils {
 	public  <T> List<T> parse(InputStream inputStream, Class<T> t) throws ExcelIoInputException, ExcelDataTypeHandlerException, ExcelCellException, ExcelNotFoundHandlerException , ExcelValidateException {
 		
 		List<T>  resultList=new ArrayList<T>();
-		List<ExcelField> list=AnnotationUtil.loadAnnotationConfig(t);
+		List<ExcelField> list=AnnotationUtils.loadAnnotationConfig(t);
 		System.out.println(list.size());
 		Map<String,Object>[] beans=parse(inputStream, list);
 		System.out.println(JSON.toJSON(beans));
 		System.out.println("bs:"+String.valueOf(beans)+",len:"+beans.length);
 		for(Map<String,Object> bean:beans){
 			System.out.println("row:1");
-			Map<Object,Object> map=DataUtil.convertMap(bean);
-			T resultBean=DataUtil.convert(map, t);
+			Map<Object,Object> map=DataUtils.convertMap(bean);
+			T resultBean=DataUtils.convert(map, t);
 			resultList.add(resultBean);
 		}
 		return resultList;

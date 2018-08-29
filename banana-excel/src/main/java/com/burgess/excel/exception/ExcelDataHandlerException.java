@@ -8,7 +8,7 @@ package com.burgess.excel.exception;
  * @time 22:04:07/2018-08-28
  * @desc 
  */
-public class ExcelDataHandlerException extends ExcelException {
+public class ExcelDataHandlerException extends ExcelHandlerException {
 	private static final long serialVersionUID = 1L;
 	public ExcelDataHandlerException(String handlerName, String errorMsg,
 			Exception e) {

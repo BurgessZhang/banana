@@ -1,7 +1,5 @@
 package com.burgess.excel.exception;
 
-import com.burgess.excel.config.ExcelColumn;
-
 /**
  * @project banana-excel
  * @package com.burgess.excel.exception
@@ -10,10 +8,8 @@ import com.burgess.excel.config.ExcelColumn;
  * @time 22:05:05/2018-08-28
  * @desc 
  */
-public class ExcelConfigAnnotationException extends ExcelColumn {
-	/**
-	 * 
-	 */
+public class ExcelConfigAnnotationException extends ExcelConfigException {
+	
 	private static final long serialVersionUID = 1L;
 
 	public ExcelConfigAnnotationException(String errorMsg, Exception exm) {
@@ -24,9 +20,8 @@ public class ExcelConfigAnnotationException extends ExcelColumn {
 		this.annotation= annotation;
 		super.setCode(EXCEL_CONFIG_ANNOTATION_EXCEPTION_CODE);
 	}
-	/**
-	 * 分析的注解类
-	 */
+	
+	//分析的注解类
 	private Class<?> annotation;
 
 	public Class<?> getAnnotation() {

@@ -7,9 +7,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.burgess.excel.config.ExcelColumn;
+import com.burgess.excel.annotation.ColumnDataHandler;
+import com.burgess.excel.annotation.ColumnDataTypeHandler;
+import com.burgess.excel.annotation.ColumnFormat;
+import com.burgess.excel.annotation.ColumnStyle;
+import com.burgess.excel.annotation.ColumnValidate;
+import com.burgess.excel.annotation.ExcelColumn;
+import com.burgess.excel.annotation.ExcelSheet;
 import com.burgess.excel.config.ExcelField;
-import com.burgess.excel.config.ExcelSheet;
 
 /**
  * @project banana-excel
@@ -21,7 +26,7 @@ import com.burgess.excel.config.ExcelSheet;
  */
 public class AnnotationUtils {
 
-	private static final Logger logger = LoggerFactory.getLogger( AnnotationUtil.class );
+	private static final Logger logger = LoggerFactory.getLogger(AnnotationUtils.class );
 	
 	public static  List<ExcelField>  loadAnnotationConfig(Class<?> beanConfigClass){
 		if(beanConfigClass==null){

@@ -1,5 +1,7 @@
 package com.burgess.excel.exception;
 
+import java.util.List;
+
 import com.burgess.excel.config.ExcelField;
 
 /**
@@ -11,9 +13,8 @@ import com.burgess.excel.config.ExcelField;
  * @desc 
  */
 public class ExcelConfigException extends ExcelException {
-	/**
-	 * 
-	 */
+	
+	
 	private static final long serialVersionUID = 1L;
 	public ExcelConfigException(String errorMsg, Exception exm) {
 		this(null,null,errorMsg, exm);
@@ -27,9 +28,8 @@ public class ExcelConfigException extends ExcelException {
         this.config=config;
         this.configsList=configsList;
 	}
-	/**
-	 * 单列配置
-	 */
+	
+	//单列配置
 	private ExcelField config;
 	public ExcelField getConfig() {
 		return config;
