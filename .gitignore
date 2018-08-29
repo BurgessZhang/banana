@@ -27,3 +27,14 @@
 /banana-permission/.mvn
 /banana-permission/.settings
 /banana-permission/target
+/banana/*.project
+/banana-common/*.project
+/banana-email/*.project
+/banana-excel/*.project
+/banana-excel/*.classpath
+/banana-job/*.classpath
+/banana-job/*.project
+/banana-kafka/*.classpath
+/banana-kafka/*.project
+/banana-log/*.classpath
+/banana-log/*.project
