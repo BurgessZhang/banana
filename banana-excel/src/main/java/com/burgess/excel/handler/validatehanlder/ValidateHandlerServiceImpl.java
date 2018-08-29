@@ -15,18 +15,16 @@ import org.slf4j.LoggerFactory;
  * @file ValidateHandlerServiceImpl.java
  * @author burgess.zhang
  * @time 22:17:55/2018-08-28
- * @desc 
+ * @desc
  */
 public class ValidateHandlerServiceImpl implements ValidateHandlerService {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(ValidateHandlerServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(ValidateHandlerServiceImpl.class);
 
 	private Map<String, ValidateHandler> handlers = null;
 
 	@Override
-	public ValidateHandler find(String name)
-			throws ExcelNotFoundHandlerException {
+	public ValidateHandler find(String name) throws ExcelNotFoundHandlerException {
 		if (StringUtils.isEmpty(name)) {
 			String msg = "the param name of the method of ValidateServiceImpl.find(String name) is empty ";
 			logger.error(msg);
@@ -47,8 +45,7 @@ public class ValidateHandlerServiceImpl implements ValidateHandlerService {
 	@Override
 	public void init() {
 		logger.info("ValidateServiceImpl.init()");
-		ServiceLoader<ValidateHandler> validateServiceLoader = ServiceLoader
-				.load(ValidateHandler.class);
+		ServiceLoader<ValidateHandler> validateServiceLoader = ServiceLoader.load(ValidateHandler.class);
 		for (ValidateHandler validate : validateServiceLoader) {
 			addHandler(validate);
 		}
@@ -61,23 +58,19 @@ public class ValidateHandlerServiceImpl implements ValidateHandlerService {
 			handlers = new HashMap<String, ValidateHandler>();
 		}
 		if (StringUtils.isNotEmpty(validateHandler.getfNandlerName())) {
-			handlers.put(validateHandler.getfNandlerName().trim(),
-					validateHandler);
+			handlers.put(validateHandler.getfNandlerName().trim(), validateHandler);
 		}
 		handlers.put(validateHandler.getClass().getName(), validateHandler);
 	}
 
 	@Override
-	public ValidateHandler initHandlerByName(String fullName)
-			throws ExcelNotFoundHandlerException {
+	public ValidateHandler initHandlerByName(String fullName) throws ExcelNotFoundHandlerException {
 		if (StringUtils.isEmpty(fullName)) {
 			String msg = "the param fullName of the method of ValidateServiceImpl.initHandlerByName(String fullName) is empty ";
 			logger.error(msg);
 			throw new IllegalArgumentException(msg);
 		}
-		logger.info(
-				"ValidateServiceImpl.initHandlerByName(String fullName={})",
-				fullName);
+		logger.info("ValidateServiceImpl.initHandlerByName(String fullName={})", fullName);
 		ValidateHandler handler = null;
 		Class<?> handlerClass = null;
 		try {
@@ -91,15 +84,13 @@ public class ValidateHandlerServiceImpl implements ValidateHandlerService {
 			try {
 				handler = (ValidateHandler) handlerClass.newInstance();
 			} catch (InstantiationException e) {
-				String msg = String
-						.format("Instantiation of %s. it has not default Access construst function witd zero parm",
-								fullName);
+				String msg = String.format(
+						"Instantiation of %s. it has not default Access construst function witd zero parm", fullName);
 				logger.error(msg);
 				throw new ExcelNotFoundHandlerException(fullName, msg, null);
 			} catch (IllegalAccessException e) {
-				String msg = String
-						.format("Illegal Access of %s,don't have permision to  Access  construst function.",
-								fullName);
+				String msg = String.format("Illegal Access of %s,don't have permision to  Access  construst function.",
+						fullName);
 				logger.error(msg);
 				throw new ExcelNotFoundHandlerException(fullName, msg, null);
 			}

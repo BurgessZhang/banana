@@ -12,7 +12,7 @@ import com.burgess.excel.handler.DataHandler;
  * @desc
  */
 public interface DataHandlerService {
-	
+
 	DataHandler<?> findHandler(String fieldName) throws ExcelNotFoundHandlerException;
 
 	void addHandler(DataHandler<?> handler);

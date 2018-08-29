@@ -6,17 +6,15 @@ package com.burgess.excel.exception;
  * @file ExcelBeanPropertyException.java
  * @author burgess.zhang
  * @time 22:06:33/2018-08-28
- * @desc 
+ * @desc
  */
 public class ExcelBeanPropertyException extends ExcelBeanException {
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 要操作的对象或者类的字段属性
 	 */
-    private String property;
+	private String property;
 
-	
-	
 	public String getProperty() {
 		return property;
 	}
@@ -24,13 +22,14 @@ public class ExcelBeanPropertyException extends ExcelBeanException {
 	public void setProperty(String property) {
 		this.property = property;
 	}
+
 	public ExcelBeanPropertyException(String errorMsg, Exception exm) {
-		this(null,"",errorMsg, exm);
+		this(null, "", errorMsg, exm);
 	}
-	
-	public ExcelBeanPropertyException(Object target,String property,String errorMsg, Exception exm) {
+
+	public ExcelBeanPropertyException(Object target, String property, String errorMsg, Exception exm) {
 		super(errorMsg, exm);
-		this.property=property;
+		this.property = property;
 		super.setTarget(target);
 		this.setCode(EXCEL_BEAN_PROPERTY_EXCEPTION_CODE);
 	}

@@ -35,6 +35,7 @@ public interface ExcelParseService {
 	 * @throws ExcelNotFoundHandlerException
 	 * @throws ExcelValidateException
 	 */
-	public  Map<String,Object>[] parse(InputStream inputStream, List<ExcelField> configs) throws ExcelIoInputException, ExcelDataTypeHandlerException, ExcelCellException, ExcelNotFoundHandlerException , ExcelValidateException ;
-	
+	Map<String, Object>[] parse(InputStream inputStream, List<ExcelField> configs) throws ExcelIoInputException,
+			ExcelDataTypeHandlerException, ExcelCellException, ExcelNotFoundHandlerException, ExcelValidateException;
+
 }

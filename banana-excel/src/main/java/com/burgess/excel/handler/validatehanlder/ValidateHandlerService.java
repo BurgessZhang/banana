@@ -12,7 +12,7 @@ import com.burgess.excel.handler.ValidateHandler;
  * @desc
  */
 public interface ValidateHandlerService {
-	
+
 	ValidateHandler find(String name) throws ExcelNotFoundHandlerException;
 
 	void init();

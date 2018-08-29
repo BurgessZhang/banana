@@ -6,7 +6,7 @@ package com.burgess.excel.exception;
  * @file ExcelIOutputException.java
  * @author burgess.zhang
  * @time 22:00:52/2018-08-28
- * @desc 
+ * @desc
  */
 public class ExcelIOutputException extends ExcelIoException {
 	/**
@@ -19,8 +19,8 @@ public class ExcelIOutputException extends ExcelIoException {
 		super.setCode(EXCEL_IO_OUTPUT_EXCEPTION_CODE);
 	}
 
-	public ExcelIOutputException(String fileName,String errorMsg, Exception exm) {
-		super(fileName,errorMsg, exm);
+	public ExcelIOutputException(String fileName, String errorMsg, Exception exm) {
+		super(fileName, errorMsg, exm);
 		super.setCode(EXCEL_IO_OUTPUT_EXCEPTION_CODE);
 	}
 }

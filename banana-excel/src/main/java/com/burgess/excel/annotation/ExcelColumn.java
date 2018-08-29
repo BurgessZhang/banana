@@ -20,12 +20,14 @@ import java.lang.annotation.Target;
 public @interface ExcelColumn {
 	/**
 	 * 标题
+	 * 
 	 * @return
 	 */
 	public String fieldTitle();
 
 	/**
 	 * 所在的列索引
+	 * 
 	 * @return
 	 */
 	public int columnIndex();

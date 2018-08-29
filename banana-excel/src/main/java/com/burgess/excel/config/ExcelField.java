@@ -14,7 +14,7 @@ import com.burgess.excel.handler.ValidateHandler;
  * @desc
  */
 public class ExcelField {
-	
+
 	private int abandonStyleCount;
 	/**
 	 * workbook的表格索引

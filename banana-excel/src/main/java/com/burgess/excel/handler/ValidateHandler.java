@@ -6,7 +6,7 @@ package com.burgess.excel.handler;
  * @file ValidateHandler.java
  * @author burgess.zhang
  * @time 22:08:46/2018-08-28
- * @desc 
+ * @desc
  */
 public interface ValidateHandler {
 	public String getfNandlerName();

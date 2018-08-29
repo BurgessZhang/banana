@@ -54,7 +54,12 @@ public class ExcelParseServiceImpl implements ExcelParseService {
 	public final static int PUSHBACKREADER_BUFFER_SIZE = 8;
 	public final static int ROW_ACCESS_WINDOW_SIZE = 100;
 
+	// 数据类型
 	private DataTypeHandlerService dataTypeService;
+	// 数据转换
+	private DataHandlerService dataHandlerService;
+	// 校验
+	private ValidateHandlerService validateService;
 
 	private DataTypeHandlerService getDataTypeService() {
 		if (dataTypeService != null) {
@@ -69,9 +74,6 @@ public class ExcelParseServiceImpl implements ExcelParseService {
 		}
 		return dataTypeService;
 	}
-
-	// 数据转换
-	private DataHandlerService dataHandlerService;
 
 	private DataHandlerService getDataHandlerService() {
 		logger.info("ExcelExportServiceImpl.getDataHandlerService()");
@@ -89,8 +91,6 @@ public class ExcelParseServiceImpl implements ExcelParseService {
 		}
 		return dataHandlerService;
 	}
-
-	private ValidateHandlerService validateService;
 
 	private ValidateHandlerService getValidateService() {
 		logger.info("ExcelExportServiceImpl.getValidateService()");
@@ -126,6 +126,7 @@ public class ExcelParseServiceImpl implements ExcelParseService {
 	 * @see com.burgess.excel.api.ExcelParseService#parse(java.io.InputStream,
 	 *      java.util.List)
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Map<String, Object>[] parse(InputStream inputStream, List<ExcelField> configs) throws ExcelIoInputException,
 			ExcelDataTypeHandlerException, ExcelCellException, ExcelNotFoundHandlerException, ExcelValidateException {
@@ -355,9 +356,7 @@ public class ExcelParseServiceImpl implements ExcelParseService {
 			value = cellValue;
 		}
 
-		/**
-		 * 数据校验
-		 */
+		// 数据校验
 		ValidateHandlerService validateService = null;
 		ValidateHandler validateHandler = null;
 		if (config.getValidateHandler() != null) {

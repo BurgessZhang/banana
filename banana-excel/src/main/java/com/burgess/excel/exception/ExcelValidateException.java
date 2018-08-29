@@ -8,34 +8,33 @@ import com.burgess.excel.handler.ValidateHandler;
  * @file ExcelValidateException.java
  * @author burgess.zhang
  * @time 22:03:06/2018-08-28
- * @desc 
+ * @desc
  */
 public class ExcelValidateException extends ExcelException {
 	private static final long serialVersionUID = 1L;
+
 	public ExcelValidateException(String errorMsg, Exception exception) {
-		this(null,null,errorMsg, exception);
+		this(null, null, errorMsg, exception);
 	}
-	
-	public ExcelValidateException(ValidateHandler handler,Object target,String errorMsg, Exception exception) {
+
+	public ExcelValidateException(ValidateHandler handler, Object target, String errorMsg, Exception exception) {
 		super(errorMsg, exception);
-		this.target=target;
-		this.validateHandler=handler;
+		this.target = target;
+		this.validateHandler = handler;
 	}
-	
-	
-	public ExcelValidateException(ValidateHandler handler,Object target,int row ,int col,String errorMsg, Exception exception) {
+
+	public ExcelValidateException(ValidateHandler handler, Object target, int row, int col, String errorMsg,
+			Exception exception) {
 		super(errorMsg, exception);
 		this.target = target;
 		this.validateHandler = handler;
 		this.rowIndex = row;
 		this.colIndex = col;
 	}
-	
+
 	private Integer rowIndex;
 	private Integer colIndex;
-	
-	
-	
+
 	public Integer getRowIndex() {
 		return rowIndex;
 	}
@@ -61,10 +60,12 @@ public class ExcelValidateException extends ExcelException {
 	public void setValidateHandler(ValidateHandler validateHandler) {
 		this.validateHandler = validateHandler;
 	}
+
 	/**
 	 * 被校验目标
 	 */
 	private Object target;
+
 	public Object getTarget() {
 		return target;
 	}

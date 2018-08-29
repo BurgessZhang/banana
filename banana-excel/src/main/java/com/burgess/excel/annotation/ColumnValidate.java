@@ -19,5 +19,6 @@ import java.lang.annotation.Target;
 @Documented
 public @interface ColumnValidate {
 	public String value();
+
 	public String argsKeyValue();
 }

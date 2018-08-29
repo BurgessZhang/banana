@@ -12,13 +12,14 @@ import org.slf4j.LoggerFactory;
  * @file MailValidate.java
  * @author burgess.zhang
  * @time 22:21:33/2018-08-28
- * @desc 
+ * @desc
  */
 public class MailValidate implements ValidateHandler {
 
-private static final Logger logger = LoggerFactory.getLogger( MailValidate.class );
-	
-	private String patternStr="\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+	private static final Logger logger = LoggerFactory.getLogger(MailValidate.class);
+
+	private String patternStr = "\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+
 	@Override
 	public String getfNandlerName() {
 		// TODO Auto-generated method stub
@@ -27,9 +28,9 @@ private static final Logger logger = LoggerFactory.getLogger( MailValidate.class
 
 	@Override
 	public Boolean parse(Object cellValue) {
-		logger.info("MailValidate.parseValidate({})",cellValue);
-		String value=String.valueOf(cellValue);
-		boolean flag=false;
+		logger.info("MailValidate.parseValidate({})", cellValue);
+		String value = String.valueOf(cellValue);
+		boolean flag = false;
 		Pattern p1 = null;
 		Matcher m = null;
 		p1 = Pattern.compile(patternStr);
@@ -40,9 +41,9 @@ private static final Logger logger = LoggerFactory.getLogger( MailValidate.class
 
 	@Override
 	public Boolean export(Object fieldValue) {
-		logger.info("MailValidate.exportValidate({})",fieldValue);
-		String value=String.valueOf(fieldValue);
-		boolean flag=false;
+		logger.info("MailValidate.exportValidate({})", fieldValue);
+		String value = String.valueOf(fieldValue);
+		boolean flag = false;
 		Pattern p1 = null;
 		Matcher m = null;
 		p1 = Pattern.compile(patternStr);
@@ -50,6 +51,5 @@ private static final Logger logger = LoggerFactory.getLogger( MailValidate.class
 		flag = m.matches();
 		return flag;
 	}
-
 
 }

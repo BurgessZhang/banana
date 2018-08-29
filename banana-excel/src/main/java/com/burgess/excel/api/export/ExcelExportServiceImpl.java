@@ -61,8 +61,20 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 	public final static int ROW_ACCESS_WINDOW_SIZE = 100;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExcelExportServiceImpl.class);
 
+	// 数据类型
 	private DataTypeHandlerService dataTypeService;
+	// 数据转换
+	private DataHandlerService dataHandlerService;
+	// 校验
+	private ValidateHandlerService validateService;
 
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:46:54/2018年8月29日
+	 * @desc 获取dataType服务
+	 * @return
+	 */
 	private DataTypeHandlerService getDataTypeService() {
 		if (dataTypeService != null) {
 			return dataTypeService;
@@ -77,9 +89,13 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 		return dataTypeService;
 	}
 
-	// 数据转换
-	private DataHandlerService dataHandlerService;
-
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:47:43/2018年8月29日
+	 * @desc 获取数据转换服务
+	 * @return
+	 */
 	private DataHandlerService getDataHandlerService() {
 		LOGGER.info("ExcelExportServiceImpl.getDataHandlerService()");
 		if (dataHandlerService != null) {
@@ -97,8 +113,13 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 		return dataHandlerService;
 	}
 
-	private ValidateHandlerService validateService;
-
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:48:30/2018年8月29日
+	 * @desc 校验服务
+	 * @return
+	 */
 	private ValidateHandlerService getValidateService() {
 		LOGGER.info("ExcelExportServiceImpl.getValidateService()");
 		if (validateService != null) {
@@ -121,7 +142,7 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 	 * @file ExcelExportServiceImpl.java
 	 * @author burgess.zhang
 	 * @time 21:48:27/2018-08-28
-	 * @desc
+	 * @desc 导出
 	 * @param outputStream
 	 * @param configs
 	 * @param maps
@@ -271,6 +292,17 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 
 	}
 
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:49:15/2018年8月29日
+	 * @desc 向excel写入数据
+	 * @param inputStream
+	 * @param dataCount
+	 * @param config
+	 * @return
+	 * @throws ExcelIoInputException
+	 */
 	private Workbook readWorkbookByTemplateInputStream(InputStream inputStream, int dataCount, ExcelField config)
 			throws ExcelIoInputException {
 		LOGGER.info("read Workbook By InputStream");
@@ -321,8 +353,10 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 	}
 
 	/**
-	 * 转换成名字和配置对应的hashmap
-	 * 
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:49:44/2018年8月29日
+	 * @desc 转换成名字和配置对应的hashmap
 	 * @param configs
 	 * @return
 	 */
@@ -335,6 +369,15 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 		return mapConf;
 	}
 
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:49:55/2018年8月29日
+	 * @desc 向excel读取sheet
+	 * @param workbook
+	 * @param sheetIndex
+	 * @return
+	 */
 	private Sheet readSheetByWorkbook(Workbook workbook, int sheetIndex) {
 		LOGGER.info("read Sheet By Workbook");
 		if (workbook == null) {
@@ -353,6 +396,14 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 		return sheet;
 	}
 
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:50:11/2018年8月29日
+	 * @desc 向excel写入workbook
+	 * @param workbook
+	 * @return
+	 */
 	private Sheet writeSheetByWorkbook(Workbook workbook) {
 		if (workbook == null) {
 			String msg = "the param workbook of the method of ExcelExportServiceImpl.writeSheetByWorkbook(workbook)   is null. ";
@@ -398,6 +449,17 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 		return workbook;
 	}
 
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:50:51/2018年8月29日
+	 * @desc 向excel写入title
+	 * @param sheet
+	 * @param configs
+	 * @return
+	 * @throws ExcelStyleHandlerException
+	 * @throws ExcelStyleException
+	 */
 	private int writeTitle(Sheet sheet, List<ExcelField> configs)
 			throws ExcelStyleHandlerException, ExcelStyleException {
 		LOGGER.info("ExcelExportServiceImpl.writeTitle(sheet={}，configs={},config={})", sheet, configs);
@@ -427,6 +489,23 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 		return i;
 	}
 
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:51:09/2018年8月29日
+	 * @desc 向excel写入数据
+	 * @param row
+	 * @param nameMap
+	 * @param map
+	 * @param style
+	 * @throws ExcelDataTypeHandlerException
+	 * @throws ExcelDataHandlerException
+	 * @throws ExcelStyleHandlerException
+	 * @throws ExcelCellException
+	 * @throws ExcelStyleException
+	 * @throws ExcelNotFoundHandlerException
+	 * @throws ExcelValidateException
+	 */
 	private void writeRow(Row row, Map<String, ExcelField> nameMap, Map<String, Object> map, Boolean style)
 			throws ExcelDataTypeHandlerException, ExcelDataHandlerException, ExcelStyleHandlerException,
 			ExcelCellException, ExcelStyleException, ExcelNotFoundHandlerException, ExcelValidateException {
@@ -447,6 +526,23 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 		}
 	}
 
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:51:31/2018年8月29日
+	 * @desc 
+	 * @param cell
+	 * @param value
+	 * @param config
+	 * @param style
+	 * @throws ExcelCellException
+	 * @throws ExcelDataTypeHandlerException
+	 * @throws ExcelDataHandlerException
+	 * @throws ExcelStyleHandlerException
+	 * @throws ExcelStyleException
+	 * @throws ExcelNotFoundHandlerException
+	 * @throws ExcelValidateException
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void writeCell(Cell cell, Object value, ExcelField config, Boolean style)
 			throws ExcelCellException, ExcelDataTypeHandlerException, ExcelDataHandlerException,
@@ -471,7 +567,8 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 				String msg = String.format("the cell[%d,%d]'s value[%s] can't pass the exportValidate handler [%s].  ",
 						cell.getRowIndex(), cell.getColumnIndex(), value, validateHandler.getClass().getName());
 				LOGGER.error(msg);
-				throw new ExcelValidateException(validateHandler, value, cell.getRowIndex(), cell.getColumnIndex(), msg,null);
+				throw new ExcelValidateException(validateHandler, value, cell.getRowIndex(), cell.getColumnIndex(), msg,
+						null);
 			}
 		}
 
@@ -603,6 +700,15 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 
 	}
 
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:52:03/2018年8月29日
+	 * @desc 获取参数类型
+	 * @param classInstance
+	 * @param methodName
+	 * @return
+	 */
 	@SuppressWarnings("rawtypes")
 	public Class getMethodParamTypes(Object classInstance, String methodName) {
 		Class paramTypes = null;
@@ -618,6 +724,15 @@ public class ExcelExportServiceImpl implements ExcelExportService {
 		return paramTypes;
 	}
 
+	/**
+	 * @file ExcelExportServiceImpl.java
+	 * @author burgess.zhang
+	 * @time 上午10:52:18/2018年8月29日
+	 * @desc 获取返回值类型
+	 * @param classInstance
+	 * @param methodName
+	 * @return
+	 */
 	@SuppressWarnings("rawtypes")
 	public Class getMethodReturnType(Object classInstance, String methodName) {
 		Class paramTypes = null;

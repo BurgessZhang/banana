@@ -19,5 +19,6 @@ import java.lang.annotation.Target;
 @Documented
 public @interface ColumnStyle {
 	public String style();
+
 	public String handlers();
 }

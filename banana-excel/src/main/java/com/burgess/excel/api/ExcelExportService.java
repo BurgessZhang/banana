@@ -24,14 +24,7 @@ import com.burgess.excel.exception.ExcelValidateException;
  * @desc excele导出服务
  */
 public interface ExcelExportService {
-	/**
-	 * 
-	 * @param outputStream        导出的文件流
-	 * @param configs             列表配置信息
-	 * @param list                数据信息
-	 * @param tempalteInputStream 模板文件的输入流
-	 * @throws ExcelException
-	 */
+
 	/**
 	 * @file ExcelExportService.java
 	 * @author burgess.zhang

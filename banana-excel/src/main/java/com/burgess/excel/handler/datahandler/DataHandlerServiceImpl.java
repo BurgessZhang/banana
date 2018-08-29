@@ -70,7 +70,8 @@ public class DataHandlerServiceImpl implements DataHandlerService {
 		try {
 			init();
 		} catch (ExcelException e) {
-			logger.error("DataHandlerServiceImpl.DataHandlerServiceImpl() handler init fail，message：{}", e.getErrorMsg());
+			logger.error("DataHandlerServiceImpl.DataHandlerServiceImpl() handler init fail，message：{}",
+					e.getErrorMsg());
 			throw new ExcelDataHandlerException("DataHandlerServiceImpl", "handler init fail", e);
 		}
 	}
