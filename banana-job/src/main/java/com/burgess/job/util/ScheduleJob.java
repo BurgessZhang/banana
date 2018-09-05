@@ -21,7 +21,7 @@ import com.burgess.job.entity.ScheduleJobLogEntity;
  * @file ScheduleJob.java
  * @author burgess.zhang
  * @time 13:56:13/2018-09-01
- * @desc
+ * @desc 定时任务
  */
 public class ScheduleJob extends QuartzJobBean {
 
@@ -33,7 +33,7 @@ public class ScheduleJob extends QuartzJobBean {
 	 * @file ScheduleJob.java
 	 * @author burgess.zhang
 	 * @time 13:56:13/2018-09-01
-	 * @desc
+	 * @desc 定时任务执行
 	 * @param context
 	 * @throws JobExecutionException
 	 * @see org.springframework.scheduling.quartz.QuartzJobBean#executeInternal(org.quartz.JobExecutionContext)

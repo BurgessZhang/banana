@@ -12,10 +12,10 @@ import org.springframework.context.ApplicationContextAware;
  * @time 下午4:44:33/2018年8月31日
  * @desc spring context 工具类
  */
-public class SpringContextUtils implements ApplicationContextAware{
+public class SpringContextUtils implements ApplicationContextAware {
 
-	public static ApplicationContext applicationContext; 
-	
+	public static ApplicationContext applicationContext;
+
 	/**
 	 * @file SpringContextUtils.java
 	 * @author burgess.zhang
@@ -29,7 +29,7 @@ public class SpringContextUtils implements ApplicationContextAware{
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		SpringContextUtils.applicationContext = applicationContext;
 	}
-	
+
 	/**
 	 * @file SpringContextUtils.java
 	 * @author burgess.zhang
@@ -41,7 +41,7 @@ public class SpringContextUtils implements ApplicationContextAware{
 	public static Object getBean(String name) {
 		return applicationContext.getBean(name);
 	}
-	
+
 	/**
 	 * @file SpringContextUtils.java
 	 * @author burgess.zhang

@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.ReflectionUtils;
 
-import com.burgess.job.exception.RRException;
+import com.burgess.job.exception.BananaJobException;
 
 /**
  * @project banana-job
@@ -20,9 +20,6 @@ public class ScheduleRunnable implements Runnable {
 	private Object target;
 	private Method method;
 	private String params;
-	
-
-
 
 	/**
 	 * @file ScheduleRunnable.java
@@ -32,28 +29,26 @@ public class ScheduleRunnable implements Runnable {
 	 * @param target
 	 * @param method
 	 * @param params
-	 * @throws SecurityException 
-	 * @throws NoSuchMethodException 
+	 * @throws SecurityException
+	 * @throws NoSuchMethodException
 	 */
-	public ScheduleRunnable(String beanName, String methodName, String params) throws NoSuchMethodException, SecurityException {
+	public ScheduleRunnable(String beanName, String methodName, String params)
+			throws NoSuchMethodException, SecurityException {
 		super();
 		this.target = SpringContextUtils.getBean(beanName);
 		this.params = params;
 		if (StringUtils.isNotBlank(params)) {
 			this.method = target.getClass().getDeclaredMethod(methodName, String.class);
-		}else {
+		} else {
 			this.method = target.getClass().getDeclaredMethod(methodName);
 		}
 	}
-
-
-
 
 	/**
 	 * @file ScheduleRunnable.java
 	 * @author burgess.zhang
 	 * @time 14:04:43/2018-09-01
-	 * @desc 
+	 * @desc
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
@@ -62,11 +57,11 @@ public class ScheduleRunnable implements Runnable {
 			ReflectionUtils.makeAccessible(method);
 			if (StringUtils.isNotBlank(params)) {
 				method.invoke(target, params);
-			}else {
+			} else {
 				method.invoke(target);
 			}
 		} catch (Exception e) {
-			throw new RRException("执行定时任务失败",e);
+			throw new BananaJobException("执行定时任务失败", e);
 		}
 
 	}

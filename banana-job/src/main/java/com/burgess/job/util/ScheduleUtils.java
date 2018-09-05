@@ -2,8 +2,7 @@ package com.burgess.job.util;
 
 import org.quartz.*;
 import com.burgess.job.entity.ScheduleJobEntity;
-import com.burgess.job.exception.RRException;
-
+import com.burgess.job.exception.BananaJobException;
 
 /**
  * @project banana-job
@@ -14,9 +13,9 @@ import com.burgess.job.exception.RRException;
  * @desc 定时任务工具类
  */
 public class ScheduleUtils {
-	
+
 	private static final String JOB_NAME = "TASK_";
-	
+
 	/**
 	 * @file ScheduleUtils.java
 	 * @author burgess.zhang
@@ -28,7 +27,7 @@ public class ScheduleUtils {
 	public static TriggerKey getTriggerKey(Long jobId) {
 		return TriggerKey.triggerKey(JOB_NAME + jobId);
 	}
-	
+
 	/**
 	 * @file ScheduleUtils.java
 	 * @author burgess.zhang
@@ -40,7 +39,7 @@ public class ScheduleUtils {
 	public static JobKey getJobKey(Long jobId) {
 		return JobKey.jobKey(JOB_NAME + jobId);
 	}
-	
+
 	/**
 	 * @file ScheduleUtils.java
 	 * @author burgess.zhang
@@ -50,14 +49,14 @@ public class ScheduleUtils {
 	 * @param jobId
 	 * @return
 	 */
-	public static CronTrigger getCronTrigger(Scheduler scheduler,Long jobId) {
+	public static CronTrigger getCronTrigger(Scheduler scheduler, Long jobId) {
 		try {
-			return (CronTrigger)scheduler.getTrigger(getTriggerKey(jobId));
+			return (CronTrigger) scheduler.getTrigger(getTriggerKey(jobId));
 		} catch (SchedulerException e) {
-			throw new RRException("获取定时任务CronTrigger出现异常:",e);
+			throw new BananaJobException("获取定时任务CronTrigger出现异常:", e);
 		}
 	}
-	
+
 	/**
 	 * @file ScheduleUtils.java
 	 * @author burgess.zhang
@@ -66,33 +65,35 @@ public class ScheduleUtils {
 	 * @param scheduler
 	 * @param scheduleJob
 	 */
-	public static void createScheduleJob(Scheduler scheduler,ScheduleJobEntity scheduleJob) {
+	public static void createScheduleJob(Scheduler scheduler, ScheduleJobEntity scheduleJob) {
 		try {
-			//构建job信息
-            JobDetail jobDetail = JobBuilder.newJob((ScheduleJob.class)).withIdentity(getJobKey(scheduleJob.getJobId())).build();
+			// 构建job信息
+			JobDetail jobDetail = JobBuilder.newJob((ScheduleJob.class)).withIdentity(getJobKey(scheduleJob.getJobId()))
+					.build();
 
-            //表达式调度构建器
-            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression())
-            		.withMisfireHandlingInstructionDoNothing();
+			// 表达式调度构建器
+			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression())
+					.withMisfireHandlingInstructionDoNothing();
 
-            //按新的cronExpression表达式构建一个新的trigger
-            CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(scheduleJob.getJobId())).withSchedule(scheduleBuilder).build();
+			// 按新的cronExpression表达式构建一个新的trigger
+			CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(scheduleJob.getJobId()))
+					.withSchedule(scheduleBuilder).build();
 
-            //放入参数，运行时的方法可以获取
-            jobDetail.getJobDataMap().put(ScheduleJobEntity.JOB_PARAM_KEY, scheduleJob);
+			// 放入参数，运行时的方法可以获取
+			jobDetail.getJobDataMap().put(ScheduleJobEntity.JOB_PARAM_KEY, scheduleJob);
 
-            scheduler.scheduleJob(jobDetail, trigger);
-            
-            //暂停任务
-            if(scheduleJob.getStatus() == Constant.ScheduleStatus.PAUSE.getValue()){
-            	pauseJob(scheduler, scheduleJob.getJobId());
-            }
-		
+			scheduler.scheduleJob(jobDetail, trigger);
+
+			// 暂停任务
+			if (scheduleJob.getStatus() == Constant.ScheduleStatus.PAUSE.getValue()) {
+				pauseJob(scheduler, scheduleJob.getJobId());
+			}
+
 		} catch (Exception e) {
-			throw new RRException("创建定时任务失败",e);
+			throw new BananaJobException("创建定时任务失败", e);
 		}
 	}
-	
+
 	/**
 	 * @file ScheduleUtils.java
 	 * @author burgess.zhang
@@ -101,33 +102,33 @@ public class ScheduleUtils {
 	 * @param scheduler
 	 * @param scheduleJob
 	 */
-	public static void updateScheduleJob(Scheduler scheduler,ScheduleJobEntity scheduleJob) {
+	public static void updateScheduleJob(Scheduler scheduler, ScheduleJobEntity scheduleJob) {
 		try {
 			TriggerKey triggerKey = getTriggerKey(scheduleJob.getJobId());
 
-            //表达式调度构建器
-            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression())
-            		.withMisfireHandlingInstructionDoNothing();
+			// 表达式调度构建器
+			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression())
+					.withMisfireHandlingInstructionDoNothing();
 
-            CronTrigger trigger = getCronTrigger(scheduler, scheduleJob.getJobId());
-            
-            //按新的cronExpression表达式重新构建trigger
-            trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
-            
-            //参数
-            trigger.getJobDataMap().put(ScheduleJobEntity.JOB_PARAM_KEY, scheduleJob);
-            
-            scheduler.rescheduleJob(triggerKey, trigger);
-            
-            //暂停任务
-            if(scheduleJob.getStatus() == Constant.ScheduleStatus.PAUSE.getValue()){
-            	pauseJob(scheduler, scheduleJob.getJobId());
-            }
+			CronTrigger trigger = getCronTrigger(scheduler, scheduleJob.getJobId());
+
+			// 按新的cronExpression表达式重新构建trigger
+			trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
+
+			// 参数
+			trigger.getJobDataMap().put(ScheduleJobEntity.JOB_PARAM_KEY, scheduleJob);
+
+			scheduler.rescheduleJob(triggerKey, trigger);
+
+			// 暂停任务
+			if (scheduleJob.getStatus() == Constant.ScheduleStatus.PAUSE.getValue()) {
+				pauseJob(scheduler, scheduleJob.getJobId());
+			}
 		} catch (Exception e) {
-			throw new RRException("定时更新任务失败",e);
+			throw new BananaJobException("定时更新任务失败", e);
 		}
 	}
-	
+
 	/**
 	 * @file ScheduleUtils.java
 	 * @author burgess.zhang
@@ -136,18 +137,18 @@ public class ScheduleUtils {
 	 * @param scheduler
 	 * @param scheduleJob
 	 */
-	public static void run(Scheduler scheduler,ScheduleJobEntity scheduleJob) {
+	public static void run(Scheduler scheduler, ScheduleJobEntity scheduleJob) {
 		try {
-			//参数
+			// 参数
 			JobDataMap dataMap = new JobDataMap();
 			dataMap.put(ScheduleJobEntity.JOB_PARAM_KEY, scheduleJob);
-			
-			scheduler.triggerJob(getJobKey(scheduleJob.getJobId()),dataMap);
+
+			scheduler.triggerJob(getJobKey(scheduleJob.getJobId()), dataMap);
 		} catch (Exception e) {
-			throw new RRException("立即执行定时任务失败",e);
+			throw new BananaJobException("立即执行定时任务失败", e);
 		}
 	}
-	
+
 	/**
 	 * @file ScheduleUtils.java
 	 * @author burgess.zhang
@@ -156,14 +157,14 @@ public class ScheduleUtils {
 	 * @param scheduler
 	 * @param jobId
 	 */
-	public static void pauseJob(Scheduler scheduler,Long jobId) {
+	public static void pauseJob(Scheduler scheduler, Long jobId) {
 		try {
 			scheduler.pauseJob(getJobKey(jobId));
-		}catch (Exception e) {
-			throw new RRException("暂停定时任务失败",e);
+		} catch (Exception e) {
+			throw new BananaJobException("暂停定时任务失败", e);
 		}
 	}
-	
+
 	/**
 	 * @file ScheduleUtils.java
 	 * @author burgess.zhang
@@ -172,15 +173,15 @@ public class ScheduleUtils {
 	 * @param scheduler
 	 * @param jobId
 	 */
-	public static void resumeJob(Scheduler scheduler,Long jobId) {
+	public static void resumeJob(Scheduler scheduler, Long jobId) {
 		try {
 			scheduler.resumeJob(getJobKey(jobId));
 		} catch (Exception e) {
-			throw new RRException("恢复定时任务失败",e);
+			throw new BananaJobException("恢复定时任务失败", e);
 		}
-		
+
 	}
-	
+
 	/**
 	 * @file ScheduleUtils.java
 	 * @author burgess.zhang
@@ -189,13 +190,12 @@ public class ScheduleUtils {
 	 * @param scheduler
 	 * @param jobId
 	 */
-	public static void removeScheduleJob(Scheduler scheduler,Long jobId) {
+	public static void removeScheduleJob(Scheduler scheduler, Long jobId) {
 		try {
 			scheduler.deleteJob(getJobKey(jobId));
 		} catch (Exception e) {
-			throw new RRException("删除定时任务失败",e);
+			throw new BananaJobException("删除定时任务失败", e);
 		}
 	}
-	
-	
+
 }
