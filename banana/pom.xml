@@ -14,6 +14,8 @@
     <module>../banana-log</module>
     <module>../banana-email</module>
       <module>../banana-excel</module>
+      <module>../banana-redis</module>
+    <module>../banana-mongodb</module>
   </modules>
   <packaging>pom</packaging>
 

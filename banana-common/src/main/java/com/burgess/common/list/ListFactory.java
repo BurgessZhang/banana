@@ -10,7 +10,7 @@ import java.util.List;
  * @time 下午1:54:00/2018年8月30日
  * @desc list 工具类
  */
-public class ListUtils {
+public class ListFactory {
 
 	/**
 	 * @file ListUtils.java

@@ -21,12 +21,11 @@ import java.util.regex.Pattern;
  * @desc 日期格式工厂
  */
 public class DateFormatFactory {
-
+	
 	private static final Pattern MILLIS = Pattern.compile("[0-9][0-9]*");
 
 	// 私有化构造方法
-	private DateFormatFactory() {
-	};
+	private DateFormatFactory() {};
 
 	/**
 	 * @file DateFormatFactory.java
