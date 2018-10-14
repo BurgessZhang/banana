@@ -50,3 +50,12 @@
 /**/*.classpath
 /**/*.project
 /**/target
+/banana-redis/target
+/banana-redis/.project
+/banana-redis/.classpath
+/banana-mongodb/target
+/banana-mongodb/.project
+/banana-mongodb/banana-mongodb.iml
+/banana-mongodb/.classpath
+/banana-mongodb/.settings
+/banana-redis/.settings
