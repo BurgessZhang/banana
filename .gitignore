@@ -44,3 +44,9 @@
 /banana-job/*.iml
 /banana-kafka/*.iml
 /banana-log/*.iml
+/banana-algorithm/.settings
+/**/.settings
+/**/*.iml
+/**/*.classpath
+/**/*.project
+/**/target
