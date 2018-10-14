@@ -16,6 +16,26 @@
       <module>../banana-excel</module>
       <module>../banana-redis</module>
     <module>../banana-mongodb</module>
+    <module>../banana-rocketmq</module>
+    <module>../banana-rabbitmq</module>
+    <module>../banana-zookeeper</module>
+    <module>../banana-lucene</module>
+    <module>../banana-elasitcsearch</module>
+    <module>../banana-netty</module>
+    <module>../banana-hadoop</module>
+    <module>../banana-hive</module>
+    <module>../banana-hbase</module>
+    <module>../banana-mapreduce</module>
+    <module>../banana-storm</module>
+    <module>../banana-spark</module>
+    <module>../banana-flume</module>
+    <module>../banana-algorithm</module>
+    <module>../banana-datatructure</module>
+    <module>../banana-designmode</module>
+    <module>../banana-http</module>
+      <module>../banana-dubbo</module>
+    <module>../banana-shell</module>
+    <module>../banana-spring</module>
   </modules>
   <packaging>pom</packaging>
 
