@@ -36,6 +36,7 @@
       <module>../banana-dubbo</module>
     <module>../banana-shell</module>
     <module>../banana-spring</module>
+    <module>../banana-mongodb</module>
   </modules>
   <packaging>pom</packaging>
 
