@@ -1,0 +1,138 @@
+工厂模式
+    工厂模式（Factory Pattern）是 Java 中最常用的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。
+在工厂模式中，我们在创建对象时不会对客户端暴露创建逻辑，并且是通过使用一个共同的接口来指向新创建的对象。
+
+介绍
+    意图：定义一个创建对象的接口，让其子类自己决定实例化哪一个工厂类，工厂模式使其创建过程延迟到子类进行。
+    主要解决：主要解决接口选择的问题。
+    何时使用：我们明确地计划不同条件下创建不同实例时。
+    如何解决：让其子类实现工厂接口，返回的也是一个抽象的产品。
+    关键代码：创建过程在其子类执行。
+    应用实例： 1、您需要一辆汽车，可以直接从工厂里面提货，而不用去管这辆汽车是怎么做出来的，以及这个汽车里面的具体实现。 2、Hibernate 换数据库只需换方言和驱动就可以。
+    优点： 1、一个调用者想创建一个对象，只要知道其名称就可以了。 2、扩展性高，如果想增加一个产品，只要扩展一个工厂类就可以。 3、屏蔽产品的具体实现，调用者只关心产品的接口。
+    缺点：每次增加一个产品时，都需要增加一个具体类和对象实现工厂，使得系统中类的个数成倍增加，在一定程度上增加了系统的复杂度，同时也增加了系统具体类的依赖。这并不是什么好事。
+    使用场景： 1、日志记录器：记录可能记录到本地硬盘、系统事件、远程服务器等，用户可以选择记录日志到什么地方。 2、数据库访问，当用户不知道最后系统采用哪一类数据库，以及数据库可能有变化时。 3、设计一个连接服务器的框架，需要三个协议，"POP3"、"IMAP"、"HTTP"，可以把这三个作为产品类，共同实现一个接口。
+    注意事项：作为一种创建类模式，在任何需要生成复杂对象的地方，都可以使用工厂方法模式。有一点需要注意的地方就是复杂对象适合使用工厂模式，而简单对象，特别是只需要通过 new 就可以完成创建的对象，无需使用工厂模式。如果使用工厂模式，就需要引入一个工厂类，会增加系统的复杂度。
+
+1.工厂方法模式模式介绍
+
+工厂方法模式定义：
+    定义一个用于创建对象的接口，让子类决定实例化哪个类。
+
+工厂方法模式包括的角色：
+（1）抽象产品类：所创建产品的父类，给出一个抽象接口或抽象类，以及一般由具体产品类具体实现。
+（2）具体产品类：抽象产品类的实现类，为实现某个具体产品的对象。
+（3）抽象工厂类：工厂方法模式的核心（简单工厂模式无此抽象类），与应用程序无关。是具体工厂必须实现的接口或者必须继承的父类。
+（4）具体工厂类：继承抽象工厂类，实现具体业务逻辑。
+
+工厂方法模式的使用场景：
+（1）在任何需要生成复杂对象的地方。
+（2）客户只知道传入工厂类的参数，对于如何创建对象（逻辑）不关心。
+（3）工厂方法模式会导致类复杂化，在某些情况简单时，也许不需要使用工厂方法模式。
+
+2. 工厂方法模式实现
+下面是利用工厂方法模式“生产产品”的实例介绍，便于理解该模式如何运用。
+    1.产品抽象类
+    public abstract class Product{
+        public abstract void method();
+    }
+    2.具体产品实现类
+    public class ProductA extends Product{
+        @override
+        public void method(){
+        System.out.println(“我是具体产品小A~”);
+        }
+    }
+    public class ProductB extends Product{
+        @override
+        public void method(){
+        System.out.println(“我是具体产品小B~”);
+        }
+    }
+    3.抽象工厂类（简单工厂模式无此抽象类）
+    public abstract class Factory{
+        /**
+        *抽象工厂方法
+        *具体产生什么由子类决定
+        *@return 具体产品对象
+        */
+        public abstract Product createProduct();
+    }
+    4.具体（得到A产品）工厂类
+     public class ConcreteFactory extends Factory{
+          @override
+          public Product createProduct(){
+              return new ProductA();//若想得到产品B，改为 return new ProductB()即可
+          }
+     }
+     5.使用
+     Factory factory = new ConcreteFactory();
+     Product product = factory.createProduct();
+     product.method();
+
+3. 使用反射对该模式进行优化
+可以向工厂方法的参数中传入一个Class类来决定生产哪一个产品，然后通过反射的方法完成，使代码更加简洁。具体实现如下：
+实际上修改的是工厂类（两个），和使用时的部分代码。
+    1.抽象工厂类
+    public abstract class Factory{
+        /**
+        *抽象工厂方法
+        *具体产生什么由子类决定
+        *@param clz 产品对象的类型
+        *@return 具体产品对象
+        */
+        public abstract <T extends Product> T createProduct(Class<T> clz);
+    }
+    这里使用了Java里的泛型的概念，如果不太清楚泛型，可参考之前写过的Java泛型详解。
+
+    2.具体的工厂类，通过反射获取实例
+    public class ConcreteFactory extends Factory{
+        @override
+        public <T extends Product> T  createProduct(Class<T> clz){
+            Product product = null;
+            try{
+                product = (Product)Class.forName(clz.getName()).newInstance();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            return (T) product;
+        }
+    }
+
+    3.使用
+    Factory factory = new ConcreteFactory();
+    Product product = factory.createProduct(ProductA.class);//根据需要产生不同的产品，传入不同的参数
+    product.method();
+
+这样的方法比较简介明了，并且是动态实现的，当然也可以生成AB两个产品的工厂实现类，分别返回AB两种产品对象。这种拥有多个工厂的方式称为多工厂方法模式。
+
+4. 简单工厂模式
+简单工厂模式是对工厂方法模式的简化，简化掉了抽象工厂类。显然，前提是必须确保工厂类只有一个。
+我们要做的就是将对应的工厂方法改为静态方法即可
+    public class Factory{
+      /**
+      *简单工厂模式的工厂类
+      *@return 具体产品对象
+      */
+      public static Product createProduct(){
+              return new ProductA();
+              //return new ProductB();
+          }
+    }
+
+   使用
+   Product product = Factory.createProduct();
+   product.method();
+
+
+以上便完成了整个建造者模式的实现细节。
+
+5. 工厂方法模式优缺点
+工厂方法模式的优点：
+（1）工厂模式完全负责设计原则，降低了对象之间的耦合度。
+（2）很明显工厂方法模式依赖于抽象的架构，将实例化的任务交由子类去完成，有非常好的拓展性。
+
+ 
+工厂方法模式的缺点：
+每次为工厂方法模式添加新的产品都需要编写一个新的产品类，并引入抽象层（即如果增加新类型，则需要修改工厂，违背了开放封闭原则(ASD) ），导致类结构的复杂化。
+
