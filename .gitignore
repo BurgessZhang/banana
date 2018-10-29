@@ -59,3 +59,11 @@
 /banana-mongodb/.classpath
 /banana-mongodb/.settings
 /banana-redis/.settings
+/banana-datatructure/*.iml
+
+/banana-elasitcsearch/banana-elasitcsearch.iml
+/banana-hive/banana-hive.iml
+/banana-mapreduce/banana-mapreduce.iml
+/banana-rocketmq/banana-rocketmq.iml
+/banana-shell/banana-shell.iml
+/banana-spring/banana-spring.iml
